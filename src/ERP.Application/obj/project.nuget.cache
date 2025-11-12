@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "SCMAHgv0wyg=",
+  "success": true,
+  "projectFilePath": "D:\\projetos\\erp\\src\\ERP.Application\\ERP.Application.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\leand\\.nuget\\packages\\fluentvalidation\\12.1.0\\fluentvalidation.12.1.0.nupkg.sha512"
+  ],
+  "logs": []
+}

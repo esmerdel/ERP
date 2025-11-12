@@ -1,0 +1,17 @@
+D:\projetos\erp\src\ERP.Infrastructure\bin\Debug\net9.0\ERP.Infrastructure.deps.json
+D:\projetos\erp\src\ERP.Infrastructure\bin\Debug\net9.0\ERP.Infrastructure.dll
+D:\projetos\erp\src\ERP.Infrastructure\bin\Debug\net9.0\ERP.Infrastructure.pdb
+D:\projetos\erp\src\ERP.Infrastructure\bin\Debug\net9.0\ERP.Domain.dll
+D:\projetos\erp\src\ERP.Infrastructure\bin\Debug\net9.0\ERP.Domain.pdb
+D:\projetos\erp\src\ERP.Infrastructure\obj\Debug\net9.0\ERP.Infrastructure.csproj.AssemblyReference.cache
+D:\projetos\erp\src\ERP.Infrastructure\obj\Debug\net9.0\ERP.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+D:\projetos\erp\src\ERP.Infrastructure\obj\Debug\net9.0\ERP.Infrastructure.AssemblyInfoInputs.cache
+D:\projetos\erp\src\ERP.Infrastructure\obj\Debug\net9.0\ERP.Infrastructure.AssemblyInfo.cs
+D:\projetos\erp\src\ERP.Infrastructure\obj\Debug\net9.0\ERP.Infrastructure.csproj.CoreCompileInputs.cache
+D:\projetos\erp\src\ERP.Infrastructure\obj\Debug\net9.0\ERP.Infr.92BEE6A2.Up2Date
+D:\projetos\erp\src\ERP.Infrastructure\obj\Debug\net9.0\ERP.Infrastructure.dll
+D:\projetos\erp\src\ERP.Infrastructure\obj\Debug\net9.0\refint\ERP.Infrastructure.dll
+D:\projetos\erp\src\ERP.Infrastructure\obj\Debug\net9.0\ERP.Infrastructure.pdb
+D:\projetos\erp\src\ERP.Infrastructure\obj\Debug\net9.0\ref\ERP.Infrastructure.dll
+D:\projetos\erp\src\ERP.Infrastructure\bin\Debug\net9.0\ERP.Infrastructure.runtimeconfig.json
+D:\projetos\erp\src\ERP.Infrastructure\obj\Debug\net9.0\ERP.Infrastructure.genruntimeconfig.cache
