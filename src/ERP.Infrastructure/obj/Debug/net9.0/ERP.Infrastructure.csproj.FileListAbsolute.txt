@@ -15,3 +15,4 @@ D:\projetos\erp\src\ERP.Infrastructure\obj\Debug\net9.0\ERP.Infrastructure.pdb
 D:\projetos\erp\src\ERP.Infrastructure\obj\Debug\net9.0\ref\ERP.Infrastructure.dll
 D:\projetos\erp\src\ERP.Infrastructure\bin\Debug\net9.0\ERP.Infrastructure.runtimeconfig.json
 D:\projetos\erp\src\ERP.Infrastructure\obj\Debug\net9.0\ERP.Infrastructure.genruntimeconfig.cache
+D:\projetos\erp\src\ERP.Infrastructure\obj\Debug\net9.0\ERP.Infrastructure.sourcelink.json
