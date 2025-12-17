@@ -1,40 +1,44 @@
-using ERP.Domain.Entities;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using ERP.Domain.Entities;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 
 namespace ERP.Application.Services
 {
     public class TokenService
     {
+        private readonly IConfiguration _configuration;
+
         private readonly string _jwtKey;
         private readonly string _jwtIssuer;
 
-        public TokenService(IConfiguration config)
+        public TokenService(IConfiguration configuration)
         {
-            _jwtKey = config["Jwt:Key"];
-            _jwtIssuer = config["Jwt:Issuer"];
+            _configuration = configuration;
+            _jwtKey = _configuration["Jwt:Key"]!;
+            _jwtIssuer = _configuration["Jwt:Issuer"]!;
         }
 
-        public string GenerateToken(Usuario usuario)
+        public string GerarToken(Usuario usuario)
         {
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtKey));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
             var claims = new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, usuario.Id.ToString()),
-                new Claim("empresaId", usuario.EmpresaId.ToString()),
+                new Claim(JwtRegisteredClaimNames.Email, usuario.Email),
                 new Claim(ClaimTypes.Role, usuario.Role),
-                new Claim(JwtRegisteredClaimNames.Email, usuario.Email)
+                new Claim("empresaId", usuario.EmpresaId.ToString())
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtKey));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var token = new JwtSecurityToken(
                 issuer: _jwtIssuer,
                 audience: _jwtIssuer,
                 claims: claims,
-                expires: DateTime.UtcNow.AddHours(2),
+                expires: DateTime.UtcNow.AddHours(3),
                 signingCredentials: creds
             );
 
