@@ -1,8 +1,6 @@
-using System.Security.Cryptography;
-using System.Text;
-using ERP.Application.Services;
 using ERP.Domain.Entities;
 using ERP.Domain.Interfaces;
+using BCrypt.Net;
 
 namespace ERP.Application.Services
 {
@@ -17,63 +15,76 @@ namespace ERP.Application.Services
             _tokenService = tokenService;
         }
 
-        // =============================
-        //  CADASTRO DE USUÁRIO
-        // =============================
+        // =====================================================
+        // 🧩 SEÇÃO 1: CRUD DE USUÁRIOS
+        // =====================================================
+
+        public async Task<IEnumerable<Usuario>> ObterTodosAsync()
+        {
+            return await _usuarioRepository.ObterTodosAsync();
+        }
+
+        public async Task<Usuario?> ObterPorIdAsync(int id)
+        {
+            return await _usuarioRepository.ObterPorIdAsync(id);
+        }
+
+        public async Task<string> AdicionarAsync(Usuario usuario)
+        {
+            var existente = await _usuarioRepository.ObterPorEmailAsync(usuario.Email);
+            if (existente != null)
+                return "Já existe um usuário com este e-mail.";
+
+            usuario.SenhaHash = BCrypt.Net.BCrypt.HashPassword(usuario.SenhaHash);
+            await _usuarioRepository.AdicionarAsync(usuario);
+            return "Usuário adicionado com sucesso!";
+        }
+
+        public async Task AtualizarAsync(Usuario usuario)
+        {
+            await _usuarioRepository.AtualizarAsync(usuario);
+        }
+
+        public async Task RemoverAsync(Usuario usuario)
+        {
+            await _usuarioRepository.RemoverAsync(usuario);
+        }
+
+
+        // =====================================================
+        // 🔐 SEÇÃO 2: AUTENTICAÇÃO (REGISTRO E LOGIN)
+        // =====================================================
+
         public async Task<string> RegistrarAsync(string nome, string email, string senha, int empresaId)
         {
-            if (await _usuarioRepository.EmailExisteAsync(email))
-                throw new Exception("E-mail já cadastrado.");
+            // Verifica se já existe um usuário com o mesmo e-mail
+            var existente = await _usuarioRepository.ObterPorEmailAsync(email);
+            if (existente != null)
+                return "Usuário já cadastrado com este e-mail.";
 
-            var senhaHash = GerarHashSenha(senha);
-
+            // Cria o novo usuário
             var usuario = new Usuario
             {
                 Nome = nome,
                 Email = email,
-                SenhaHash = senhaHash,
+                SenhaHash = BCrypt.Net.BCrypt.HashPassword(senha),
                 EmpresaId = empresaId
             };
 
             await _usuarioRepository.AdicionarAsync(usuario);
-
-            return "Usuário cadastrado com sucesso.";
+            return "Usuário registrado com sucesso!";
         }
 
-        // =============================
-        //  LOGIN / AUTENTICAÇÃO
-        // =============================
-        public async Task<string> LoginAsync(string email, string senha)
+        public async Task<string?> LoginAsync(string email, string senha)
         {
             var usuario = await _usuarioRepository.ObterPorEmailAsync(email);
 
-            if (usuario == null)
-                throw new Exception("Usuário não encontrado.");
+            if (usuario == null || !BCrypt.Net.BCrypt.Verify(senha, usuario.SenhaHash))
+                return null;
 
-            if (!VerificarSenha(senha, usuario.SenhaHash))
-                throw new Exception("Senha incorreta.");
-
+            // Gera o token JWT
             var token = _tokenService.GerarToken(usuario);
             return token;
-        }
-
-        // =============================
-        //  MÉTODOS AUXILIARES
-        // =============================
-        private string GerarHashSenha(string senha)
-        {
-            using (var sha256 = SHA256.Create())
-            {
-                var bytes = Encoding.UTF8.GetBytes(senha);
-                var hash = sha256.ComputeHash(bytes);
-                return Convert.ToBase64String(hash);
-            }
-        }
-
-        private bool VerificarSenha(string senhaDigitada, string senhaHash)
-        {
-            var hashDigitado = GerarHashSenha(senhaDigitada);
-            return hashDigitado == senhaHash;
         }
     }
 }

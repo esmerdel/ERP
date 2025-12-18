@@ -6,7 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using ERP.Domain.Interfaces;
 using ERP.Infrastructure.Repositories;
-
+using ERP.Application.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
@@ -15,7 +15,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
-
+builder.Services.AddScoped<UsuarioService>();
 // 🔹 Conexão com banco MySQL
 builder.Services.AddDbContext<ERPContext>(options =>
     options.UseMySql(
