@@ -7,5 +7,7 @@ namespace ERP.Domain.Entities
         public string SenhaHash { get; set; }
         public string Role { get; set; } = "Funcionario"; // Padrão
         public int EmpresaId { get; set; }
+
+        public bool IsDeleted { get; set; } = false;
     }
 }

@@ -40,15 +40,31 @@ namespace ERP.Application.Services
             return "Usuário adicionado com sucesso!";
         }
 
-        public async Task AtualizarAsync(Usuario usuario)
+        public async Task<bool> AtualizarAsync(Usuario usuario)
         {
-            await _usuarioRepository.AtualizarAsync(usuario);
+            var existente = await _usuarioRepository.ObterPorIdAsync(usuario.Id);
+            if (existente == null)
+                return false;
+
+            existente.Nome = usuario.Nome;
+            existente.Email = usuario.Email;
+            existente.EmpresaId = usuario.EmpresaId;
+
+            await _usuarioRepository.AtualizarAsync(existente);
+            return true;
         }
 
-        public async Task RemoverAsync(Usuario usuario)
+
+        public async Task<bool> RemoverAsync(int id)
         {
+            var usuario = await _usuarioRepository.ObterPorIdAsync(id);
+            if (usuario == null)
+                return false;
+
             await _usuarioRepository.RemoverAsync(usuario);
+            return true;
         }
+
 
 
         // =====================================================

@@ -66,4 +66,5 @@ app.UseAuthorization();   // depois valida as permissões
 
 app.MapControllers();
 
+
 app.Run();
