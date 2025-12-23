@@ -41,20 +41,27 @@ namespace ERP.API.Controllers
         // =============================
         //  ENDPOINT: LOGIN
         // =============================
+// =====================================================
+// ENDPOINT: LOGIN
+// =====================================================
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
             try
             {
                 var token = await _usuarioService.LoginAsync(request.Email, request.Senha);
+
+                if (token == null)
+                    return Unauthorized(new { erro = "E-mail ou senha incorretos." });
+
                 return Ok(new { token });
             }
             catch (Exception ex)
             {
-                return Unauthorized(new { erro = ex.Message });
+                return BadRequest(new { erro = ex.Message });
             }
         }
-    }
+
 
     // =============================
     //  DTOs (ViewModels)
@@ -72,5 +79,6 @@ namespace ERP.API.Controllers
     {
         public string Email { get; set; }
         public string Senha { get; set; }
+    }
     }
 }

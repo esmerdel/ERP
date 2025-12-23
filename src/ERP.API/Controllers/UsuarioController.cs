@@ -1,11 +1,13 @@
 using ERP.Application.Services;
 using ERP.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ERP.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class UsuarioController : ControllerBase
     {
         private readonly UsuarioService _usuarioService;

@@ -14,10 +14,35 @@ namespace ERP.Infrastructure.Context
 
         public DbSet<Empresa> Empresas { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<Cliente> Clientes { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
+            // 🔹 Garante que o campo IsDeleted seja mapeado corretamente
+            modelBuilder.Entity<Cliente>(entity =>
+            {
+                entity.Property(e => e.IsDeleted)
+                      .HasColumnType("tinyint(1)")
+                      .HasDefaultValue(false);
+            });
+
+            modelBuilder.Entity<Usuario>(entity =>
+            {
+                entity.Property(e => e.IsDeleted)
+                      .HasColumnType("tinyint(1)")
+                      .HasDefaultValue(false);
+            });
+
+            modelBuilder.Entity<Empresa>(entity =>
+            {
+                entity.Property(e => e.IsDeleted)
+                      .HasColumnType("tinyint(1)")
+                      .HasDefaultValue(false);
+            });
+
+            // 🔹 Mantém o filtro global (IsDeleted == false && EmpresaId == _empresaId)
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {
                 if (typeof(BaseEntity).IsAssignableFrom(entityType.ClrType))

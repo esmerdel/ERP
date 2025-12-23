@@ -16,6 +16,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<UsuarioService>();
+builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
+builder.Services.AddScoped<ClienteService>();
+
 // 🔹 Conexão com banco MySQL
 builder.Services.AddDbContext<ERPContext>(options =>
     options.UseMySql(
@@ -59,12 +62,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-// 🔹 Ordem correta:
 app.UseAuthentication();  // primeiro valida o token
 app.UseAuthorization();   // depois valida as permissões
-
 app.MapControllers();
-
-
 app.Run();
