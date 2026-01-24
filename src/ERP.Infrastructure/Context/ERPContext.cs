@@ -43,6 +43,7 @@ namespace ERP.Infrastructure.Context
             });
 
             // 🔹 Mantém o filtro global (IsDeleted == false && EmpresaId == _empresaId)
+            // 🔹 Mantém o filtro global (IsDeleted == false && EmpresaId == _empresaId)
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {
                 if (typeof(BaseEntity).IsAssignableFrom(entityType.ClrType))
@@ -55,9 +56,14 @@ namespace ERP.Infrastructure.Context
                     var sameEmpresa = Expression.Equal(empresaProp, empresaIdValue);
                     var combined = Expression.AndAlso(notDeleted, sameEmpresa);
                     var lambda = Expression.Lambda(combined, parameter);
+
                     modelBuilder.Entity(entityType.ClrType).HasQueryFilter(lambda);
+
+                    // 💡 Remova o HasField — agora o EF cria automaticamente o backing field
                 }
             }
+
+
         }
     }
 }

@@ -1,4 +1,4 @@
-using ERP.Domain.Entities.Base;
+using ERP.Domain.Entities;
 
 namespace ERP.Domain.Entities
 {

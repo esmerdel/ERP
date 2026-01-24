@@ -18,6 +18,17 @@ builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<UsuarioService>();
 builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
 builder.Services.AddScoped<ClienteService>();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        policy =>
+        {
+            policy
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+        });
+});
 
 // 🔹 Conexão com banco MySQL
 builder.Services.AddDbContext<ERPContext>(options =>
@@ -61,7 +72,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+app.UseCors("AllowAll");
+//app.UseHttpsRedirection();
 app.UseAuthentication();  // primeiro valida o token
 app.UseAuthorization();   // depois valida as permissões
 app.MapControllers();
