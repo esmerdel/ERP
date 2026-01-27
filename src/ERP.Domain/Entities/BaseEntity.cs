@@ -9,6 +9,11 @@ public abstract class BaseEntity
 
     public bool IsDeleted { get; protected set; }
 
+    public void DefinirEmpresa(int empresaId)
+    {
+        EmpresaId = empresaId;
+    }
+
     public void MarcarComoDeletado()
     {
         IsDeleted = true;

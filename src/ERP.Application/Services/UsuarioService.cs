@@ -48,7 +48,8 @@ namespace ERP.Application.Services
 
             existente.Nome = usuario.Nome;
             existente.Email = usuario.Email;
-            existente.EmpresaId = usuario.EmpresaId;
+            existente.DefinirEmpresa(usuario.EmpresaId);
+
 
             await _usuarioRepository.AtualizarAsync(existente);
             return true;
@@ -73,23 +74,23 @@ namespace ERP.Application.Services
 
         public async Task<string> RegistrarAsync(string nome, string email, string senha, int empresaId)
         {
-            // Verifica se já existe um usuário com o mesmo e-mail
             var existente = await _usuarioRepository.ObterPorEmailAsync(email);
             if (existente != null)
                 return "Usuário já cadastrado com este e-mail.";
 
-            // Cria o novo usuário
             var usuario = new Usuario
             {
                 Nome = nome,
                 Email = email,
-                SenhaHash = BCrypt.Net.BCrypt.HashPassword(senha),
-                EmpresaId = empresaId
+                SenhaHash = BCrypt.Net.BCrypt.HashPassword(senha)
             };
+
+            usuario.DefinirEmpresa(empresaId); // ✅ AQUI
 
             await _usuarioRepository.AdicionarAsync(usuario);
             return "Usuário registrado com sucesso!";
         }
+
 
         public async Task<string?> LoginAsync(string email, string senha)
         {

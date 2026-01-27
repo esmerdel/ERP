@@ -51,7 +51,8 @@ namespace ERP.Application.Services
             existente.Email = cliente.Email;
             existente.Telefone = cliente.Telefone;
             existente.Endereco = cliente.Endereco;
-            existente.EmpresaId = cliente.EmpresaId;
+            existente.DefinirEmpresa(cliente.EmpresaId);
+
 
             await _clienteRepository.AtualizarAsync(existente);
             return true;
